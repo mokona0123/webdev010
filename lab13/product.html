@@ -1,0 +1,204 @@
+<html>
+	<head>
+		<title>Computer Shop</title>
+		<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+
+		<script type="text/javascript">
+
+			var product;
+
+			function getBrand() {
+				$.ajax({
+					url: "get_brand.php",
+					method: "GET",
+					datatype: "json",
+					success: function(data) {
+						var i;
+						var d="";
+
+						for (i = 0; i < data.length; i++) {
+							d += "<option value='" + data[i].brand_id + "'>" + data[i].brand_name + "</option>";
+						}
+
+						console.log(d);
+
+						$("#cbbBrandId").html(d);
+
+						getType();
+					}
+				});
+			}
+
+			function getType() {
+				$.ajax({
+					url: "get_type.php",
+					method: "GET",
+					datatype: "json",
+					success: function(data) {
+						var i;
+						var d="";
+
+						for (i = 0; i < data.length; i++) {
+							d += "<option value='" + data[i].type_id + "'>" + data[i].type_name + "</option>";
+						}
+
+						console.log(d);
+
+						$("#cbbTypeId").html(d);
+
+						getProduct();
+					}
+				});
+			}
+
+			function getProduct() {
+				$.ajax({
+					url: "get_product.php",
+					method: "GET",
+					datatype: "json",
+					success: function(data) {
+						var i;
+						var d="";
+						product = data;
+
+						for (i = 0; i < data.length; i++) {
+							d += "<tr>"
+								+ "<td>" + data[i].product_name + "</td>"
+								+ "<td>" + data[i].brand_name + "</td>"
+								+ "<td>" + data[i].type_name + "</td>"
+								+ "<td>" + data[i].price + "</td>"
+								+ "<td>" + data[i].stock + "</td>"
+								+ "<td><button onclick='onEditData(\"" + i + "\")'>EDIT</button></td>"
+								+ "<td><button onclick='deleteData(\"" + data[i].product_id + "\")'>DELETE</button></td>";
+						}
+
+						console.log(d);
+
+						$("#product_table_body").html(d);
+					}
+				});
+			}
+
+			function onEditData(i) {
+
+				data = product[i];
+
+				console.log(data);
+
+				$("#txtProductId").val(data.product_id);
+				$("#txtProductName").val(data.product_name);
+				$("#cbbBrandId").val(data.brand_id);
+				$("#cbbTypeId").val(data.type_id);
+				$("#txtPrice").val(data.price);
+				$("#txtStock").val(data.stock);
+
+				$("#product_form").show();				
+			}
+
+			function onAddData() {
+
+				$("#txtProductId").val(0);
+				$("#txtProductName").val(null);
+				$("#cbbBrandId").val(null);
+				$("#cbbTypeId").val(null);
+				$("#txtPrice").val(null);
+				$("#txtStock").val(null);
+
+				$("#product_form").show();				
+			}
+
+			function deleteData(productId) {
+				$.ajax({
+					url: "delete_product.php",
+					method: "POST",
+					datatype: "json",
+					data: {
+						product_id: productId
+					},
+					success: function(data) {
+						getProduct();
+					}
+				});
+			}
+
+			function onCancel() {
+				$("#product_form").hide();
+			}
+
+			function saveData() {
+
+				$.ajax({
+					url: "save_product.php",
+					method: "POST",
+					data: {
+						product_id: $("#txtProductId").val(),
+						product_name: $("#txtProductName").val(),
+						brand_id: $("#cbbBrandId").val(),
+						type_id: $("#cbbTypeId").val(),
+						price: $("#txtPrice").val(),
+						stock: $("#txtStock").val()
+					},
+					datatype: "json",
+					success: function(data) {
+						$("#product_form").hide();
+						getProduct();
+					}
+				});
+
+			}
+
+			$(document).ready(function(){
+				$("#product_form").hide();
+				getBrand();
+			});
+
+		</script>
+	</head>
+	<body>
+		<button onclick="onAddData()">ADD</button>
+		<table id="product_table" border="1">
+			<thead>
+				<tr>
+					<td>Product</td>
+					<td>Brand</td>
+					<td>Type</td>
+					<td>Price</td>
+					<td>Stock</td>
+					<td>Edit</td>
+					<td>Delete</td>
+				</tr>
+			</thead>
+			<tbody id="product_table_body">
+			</tbody>
+		</table>
+
+		<div id="product_form">
+			<span>Product ID</span>
+			<input type="text" id="txtProductId" disabled />
+
+			<br />
+			<span>Product Name</span>
+			<input type="text" id="txtProductName" />
+
+			<br />
+			<span>Brand</span>
+			<select id="cbbBrandId"></select>
+
+			<br />
+			<span>Type</span>
+			<select id="cbbTypeId"></select>
+
+			<br />
+			<span>Price</span>
+			<input type="text" id="txtPrice" />
+
+			<br />
+			<span>Stock</span>
+			<input type="text" id="txtStock" />
+
+			<br />
+			<button id="btnSave" onclick="saveData()">SAVE</button>
+			<button id="btnCancel" onclick="onCancel()">CANCEL</button>
+		</div>
+	</body>
+</html>
