@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style type="text/css">
+		table,th,td { 
+		border : 1px solid black;
+		border-collapse : collapse ;
+		padding: 5px;
+	}
+		th{
+			font-size: 18px;
+		}
+		td{
+			font-size: 14px;
+		}
+	</style>
+
+	<title>Employee</title>
+	<h1>Employee</h1>
+
+	<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			getdata();
+		});
+		function getdata(){
+			$.ajax({
+				url : "get_person.php",
+				method : "POST",
+				datatype : "xml",
+				success: function(data){	
+
+					var ac = "";
+					var en = "";
+					var tr = "";
+					avgac = 0;
+					avgen = 0;
+					avgtr = 0;
+					sumac = 0;
+					sumen = 0;
+					sumtr = 0;
+					countac = 0;
+					counten = 0;
+					counttr = 0;
+
+						for (var i = 0; i < data.getElementsByTagName('data').length; i++){
+
+							if (data.getElementsByTagName('dep_id')[i].childNodes[0].nodeValue == '01'){
+							ac += "<tr>"
+								+ "<td>" + data.getElementsByTagName('emp')[i].childNodes[0].nodeValue + "</td>"
+								+ "<td>" + data.getElementsByTagName('name')[i].childNodes[0].nodeValue + "</td>"
+								+ "<td>" + data.getElementsByTagName('age')[i].childNodes[0].nodeValue + "</td>"
+								+ "<td>" + data.getElementsByTagName('salary')[i].childNodes[0].nodeValue + "</td>";
+								countac += 1;
+								sumac += Number(data.getElementsByTagName('salary')[i].childNodes[0].nodeValue);
+								avgac += Number(data.getElementsByTagName('age')[i].childNodes[0].nodeValue);
+								}
+							if  (data.getElementsByTagName('dep')[i].childNodes[0].nodeValue == 'Engineering'){
+							en += "<tr>"
+								+ "<td>" + data.getElementsByTagName('emp')[i].childNodes[0].nodeValue + "</td>"
+								+ "<td>" + data.getElementsByTagName('name')[i].childNodes[0].nodeValue + "</td>"
+								+ "<td>" + data.getElementsByTagName('age')[i].childNodes[0].nodeValue + "</td>"
+								+ "<td>" + data.getElementsByTagName('salary')[i].childNodes[0].nodeValue + "</td>";
+								counten += 1;
+								sumen += Number(data.getElementsByTagName('salary')[i].childNodes[0].nodeValue);
+								avgen += Number(data.getElementsByTagName('age')[i].childNodes[0].nodeValue);
+								}
+							if  (data.getElementsByTagName('dep')[i].childNodes[0].nodeValue == 'Transportings'){
+							tr += "<tr>"
+								+ "<td>" + data.getElementsByTagName('emp')[i].childNodes[0].nodeValue + "</td>"
+								+ "<td>" + data.getElementsByTagName('name')[i].childNodes[0].nodeValue + "</td>"
+								+ "<td>" + data.getElementsByTagName('age')[i].childNodes[0].nodeValue + "</td>"
+								+ "<td>" + data.getElementsByTagName('salary')[i].childNodes[0].nodeValue + "</td>";
+								counttr += 1;
+								sumtr += Number(data.getElementsByTagName('salary')[i].childNodes[0].nodeValue);
+								avgtr += Number(data.getElementsByTagName('age')[i].childNodes[0].nodeValue);
+								}
+									
+						
+					}
+					
+					avgac = avgac/countac
+					avgen = avgen/counten
+					avgtr = avgtr/counttr
+						
+					$("#Accounting").append(ac);
+					$("#Engineering").append(en);
+					$("#Transportings").append(tr);
+					$("#sumac").append(sumac);
+					$("#avgac").append(avgac);
+					$("#sumen").append(sumen);
+					$("#avgen").append(avgen);
+					$("#sumtr").append(sumtr);
+					$("#avgtr").append(avgtr);
+
+
+					
+					
+				}
+			});
+		}
+
+	</script>
+</head>
+
+
+<body>
+	<table>
+		<thead>
+			<tr >
+				<th>Employee ID</th>
+				<th>Name</th>
+				<th>Age</th>
+				<th>Salary</th>
+			</tr>
+		</thead>
+		
+		<thead>
+			<tr>
+				<th colspan="2">Accounting</th>
+				<th id="avgac">Average age : </th>
+				<th id="sumac">Sum of salary : </th>
+			</tr>
+			<tbody id ="Accounting"> </tbody>
+		</thead>
+
+		<thead>
+			<tr>
+				<th colspan="2">Engineering</th>
+				<th id="avgen">Average age : </th>
+				<th id="sumen">Sum of salary : </th>
+			</tr>
+			<tbody id ="Engineering"> </tbody>
+		</thead>
+
+		<thead>
+			<tr>
+				<th colspan="2">Transportings</th>
+				<th id="avgtr">Average age : </th>
+				<th id="sumtr">Sum of salary : </th>
+			</tr>
+			<tbody id ="Transportings"> </tbody>
+		</thead>
+
+
+
+	</table>
+
+</body>
+</html>
