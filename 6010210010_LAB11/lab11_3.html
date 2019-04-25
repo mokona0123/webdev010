@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TODO supply a title</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width",initial-scale=1.0">
+<script type="text/javascript">
+	function submitData(){
+		var x1 = document.getElementById("txtFirstName").value;
+    var x2 = document.getElementById("txtLastName").value;
+    
+    var x3 = document.getElementById("cbbGender").value;
+  
+    var checks =document.getElementsByTagName("input");
+    		
+    var hob="";
+    	for(i=0;i<checks.length;i++){
+    		if(checks[i].checked){
+    			hob += checks[i].value+" ";
+    		}
+    
+   	 }
+    document.getElementById("lblFirstName").innerHTML=x1;
+    document.getElementById("lblLastName").innerHTML=x2;
+    document.getElementById("lblGender").innerHTML=x3;
+    document.getElementById("lblHobbies").innerHTML=hob;
+    
+
+    
+    alert("First Name : " +x1+"\n"+"Last Name : " +x2+"\n"+"Gender : "+x3+"\n"+"Hobbies : "+hob);
+
+
+	}
+</script>
+</head>
+<body>
+First Name: <input id="txtFirstName" type="text" /><br />
+Last Name: <input id="txtLastName" type="text" /><br />
+Gender:
+<select id="cbbGender">
+<option value="Male">Male</option>
+<option value="Female">Female</option>
+</select><br />
+Hobbies:
+<input type="checkbox"  id="cbSport" value="Sports">Sports
+<input type="checkbox"  id="cbMusic" value="Musics">Musics
+<input type="checkbox"  id="cbReading" value="Reading">Reading
+<br />
+<button onclick="submitData()">SUBMIT</button>
+<br />
+First Name: <span id="lblFirstName"></span><br />
+Last Name: <span id="lblLastName"></span><br />
+Gender: <span id="lblGender"></span><br />
+Hobbies: <span id="lblHobbies"></span><br />
+</body>
+</html>

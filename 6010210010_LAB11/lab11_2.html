@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lab11_2</title>
+	<style> 
+#div1 {
+  width: 300px;
+  height: 300px;
+  background-color: coral;
+  color: white;
+
+}
+#top{
+	text-align: center;
+}
+</style>
+</head>
+<body>
+	<button onclick="bgchange()">Change Background Color</button>
+	<button onclick="textchange()">Change TEXT</button>
+	<button onclick="changefont()">Change Font Family</button>
+	<div id="div1">TEST</div>
+<script type="text/javascript">
+	function bgchange(){
+	document.getElementById("div1").style.backgroundColor = "red";
+}
+	function textchange(){
+		document.getElementById("div1").innerHTML = "Hello World";
+	}
+	function changefont(){
+		document.getElementById("div1").style.fontFamily = "Tahoma";
+	}
+</script>
+<div id="div2">
+	<div class="top">TOP</div>
+	<div>MIDDLE</div>
+	<p>Paragraph</p>
+</div>
+<button onclick="changeclass()">Change Class</button>
+<button onclick="aligncen()">Change Align</button>
+<button onclick="changecon()">Change Content</button>
+<script type="text/javascript">
+	function changeclass(){
+		document.getElementById("div2").className = "inner-class";
+	}
+	function aligncen(){
+		document.getElementById("div2").value;
+		document.getElementsByClassName("top")[0].setAttribute("align", "center"); 
+	}
+	function changecon(){
+		document.getElementById("div2").value;
+		document.getElementsByTagName("p")[0].innerHTML = "Hello Kitty";
+	}
+</script>
+</div>
+</body>
+</html>
